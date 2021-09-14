@@ -3,7 +3,7 @@ import {Text, View, StyleSheet} from 'react-native';
 
 import {widowHeight, windowWidth} from '../utils/Dimensions';
 
-const MainScreen = () => {
+const ButtonPanel = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.items}>AC</Text>
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainScreen;
+export default ButtonPanel;

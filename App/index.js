@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 
-import MainScreen from './screens/main';
+import ButtonPanel from './containers/buttons';
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         hidden
       />
 
-      <MainScreen />
+      <ButtonPanel />
     </SafeAreaView>
   );
 };
