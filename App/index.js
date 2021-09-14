@@ -1,20 +1,20 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 
-import ButtonPanel from './containers/buttons';
+import CalculatorScreen from './screen/calculatorScreen';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <StatusBar
+    <SafeAreaView style={{flex: 1}}>
+      {/* <StatusBar
         animated
         barStyle="dark-content"
         backgroundColor="#14141D"
         showHideTransition="fade"
         hidden
-      />
+      /> */}
 
-      <ButtonPanel />
+      <CalculatorScreen />
     </SafeAreaView>
   );
 };
