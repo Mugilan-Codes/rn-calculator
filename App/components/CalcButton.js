@@ -1,23 +1,27 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-const CalcButton = ({text}) => {
+const CalcButton = ({
+  text,
+  color = '#ffffff',
+  backgroundColor = '#14141D',
+  style = {},
+}) => {
   return (
-    <TouchableOpacity style={styles.btnContainer}>
-      <Text style={styles.text}>{text}</Text>
+    <TouchableOpacity style={[styles.btnContainer, {backgroundColor}, style]}>
+      <Text style={[styles.text, {color}]}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   btnContainer: {
-    borderColor: 'red',
     borderWidth: 2,
+    borderRadius: 10,
     flex: 1,
     marginHorizontal: 5,
     marginVertical: 2,
     padding: 20,
-    borderRadius: 10,
   },
   text: {
     textAlign: 'center',

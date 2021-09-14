@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import CalcButton from '../components/CalcButton';
 
 const CalculatorScreen = () => {
+  const [prevValue, setPrevValue] = useState(100);
+  const [result, setResult] = useState(0);
+
   return (
     <View style={styles.container}>
       <View>
@@ -11,14 +14,45 @@ const CalculatorScreen = () => {
       </View>
 
       <View style={styles.display}>
-        <Text>Result</Text>
+        <Text style={styles.previousText}>{prevValue}</Text>
+
+        <Text style={styles.resultText}>{result}</Text>
       </View>
 
-      <View style={styles.row}>
-        <CalcButton text="AC" />
-        <CalcButton text="+/-" />
-        <CalcButton text="%" />
-        <CalcButton text="/" />
+      <View>
+        <View style={styles.row}>
+          <CalcButton text="AC" color="cyan" />
+          <CalcButton text="+/-" color="cyan" />
+          <CalcButton text="%" color="cyan" />
+          <CalcButton text="/" color="orange" />
+        </View>
+
+        <View style={styles.row}>
+          <CalcButton text="7" />
+          <CalcButton text="8" />
+          <CalcButton text="9" />
+          <CalcButton text="X" color="orange" />
+        </View>
+
+        <View style={styles.row}>
+          <CalcButton text="4" />
+          <CalcButton text="5" />
+          <CalcButton text="6" />
+          <CalcButton text="-" color="orange" />
+        </View>
+
+        <View style={styles.row}>
+          <CalcButton text="1" />
+          <CalcButton text="2" />
+          <CalcButton text="3" />
+          <CalcButton text="+" color="orange" />
+        </View>
+
+        <View style={styles.row}>
+          <CalcButton text="0" style={{flex: 3}} />
+          <CalcButton text="." />
+          <CalcButton text="=" backgroundColor="orange" />
+        </View>
       </View>
     </View>
   );
@@ -27,11 +61,19 @@ const CalculatorScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000111',
   },
   display: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  previousText: {
+    color: '#DDDDDD',
+  },
+  resultText: {
+    fontSize: 50,
+    color: '#FFFFFF',
   },
   row: {
     flexDirection: 'row',
