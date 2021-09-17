@@ -49,7 +49,11 @@ const CalculatorScreen = () => {
         </View>
 
         <View style={styles.row}>
-          <CalcButton text="0" style={{flex: 3}} />
+          <CalcButton
+            text="0"
+            isLarge
+            onPress={() => console.log('Button clicked')}
+          />
           <CalcButton text="." />
           <CalcButton text="=" backgroundColor="orange" />
         </View>

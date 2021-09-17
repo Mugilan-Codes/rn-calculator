@@ -1,32 +1,30 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
 
-const CalcButton = ({
-  text,
-  color = '#ffffff',
-  backgroundColor = '#14141D',
-  style = {},
-}) => {
+import {WINDOW_WIDTH} from '../utils/Dimensions';
+
+const ButtonContainer = styled.TouchableOpacity`
+  width: ${props => (props.large ? WINDOW_WIDTH / 2 : WINDOW_WIDTH / 4)}px;
+  background-color: ${props => props.bgColor || '#14141D'};
+  padding: 20px;
+  border: 2px solid black;
+`;
+
+const ButtonText = styled.Text`
+  text-align: center;
+  font-size: 25px;
+  color: ${props => props.textColor || '#FFFFFF'};
+`;
+
+const CalcButton = ({text, color, backgroundColor, isLarge, onPress}) => {
   return (
-    <TouchableOpacity style={[styles.btnContainer, {backgroundColor}, style]}>
-      <Text style={[styles.text, {color}]}>{text}</Text>
-    </TouchableOpacity>
+    <ButtonContainer
+      large={isLarge}
+      bgColor={backgroundColor}
+      onPress={onPress}>
+      <ButtonText textColor={color}>{text}</ButtonText>
+    </ButtonContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  btnContainer: {
-    borderWidth: 2,
-    borderRadius: 10,
-    flex: 1,
-    marginHorizontal: 5,
-    marginVertical: 2,
-    padding: 20,
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 25,
-  },
-});
 
 export default CalcButton;
