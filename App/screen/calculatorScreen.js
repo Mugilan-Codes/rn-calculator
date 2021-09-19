@@ -26,6 +26,7 @@ const ButtonRow = styled.View`
 
 const CalculatorScreen = () => {
   const [prevValue, setPrevValue] = useState('');
+  const [operator, setOperator] = useState('');
   const [result, setResult] = useState('0');
 
   const onPressHandler = text => {
@@ -77,13 +78,13 @@ const CalculatorScreen = () => {
             color="cyan"
           />
           <CalcButton
-            text={OPERATORS.posneg}
-            onPress={() => onPressHandler(OPERATORS.posneg)}
+            text={OPERATORS.delete}
+            onPress={() => onPressHandler(OPERATORS.delete)}
             color="cyan"
           />
           <CalcButton
-            text={OPERATORS.modulo}
-            onPress={() => onPressHandler(OPERATORS.modulo)}
+            text={OPERATORS.posneg}
+            onPress={() => onPressHandler(OPERATORS.posneg)}
             color="cyan"
           />
           <CalcButton

@@ -2,7 +2,7 @@ export const OPERATORS = {
   allClear: 'AC',
   clear: 'C',
   posneg: '+/-',
-  modulo: '%',
+  delete: '<-',
   div: '/',
   mul: 'X',
   sub: '-',
