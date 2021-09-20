@@ -1,30 +1,23 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet} from 'react-native';
-import styled from 'styled-components/native';
 
 import CalcButton from '../components/CalcButton';
 import {OPERATORS, NUMBERS} from '../constants';
+import {
+  Container,
+  HistoryButton,
+  ResultText,
+  ResultView,
+  PreviousText,
+  ButtonPanelView,
+  ButtonRow,
+} from '../styles/main';
 
-const Container = styled.View`
-  flex: 1;
-  background-color: #111111;
-`;
-
-const HistoryButton = styled.Button``;
-
-const ResultView = styled.View`
-  flex: 2;
-  justify-content: flex-end;
-  align-items: flex-end;
-`;
-
-const ButtonPanelView = styled.View``;
-
-const ButtonRow = styled.View`
-  flex-direction: row;
-`;
-
+// TODO: Implement History
+// TODO: show max of two previous calculations in the calculator screen
+// TODO: display '=' when the calculation is done
+// TODO: display result with a max length of 10
 const CalculatorScreen = () => {
+  const [statement, setStatement] = useState('');
   const [prevValue, setPrevValue] = useState('');
   const [operator, setOperator] = useState('');
   const [result, setResult] = useState('0');
@@ -37,11 +30,58 @@ const CalculatorScreen = () => {
       case OPERATORS.clear:
         setResult('0');
         return;
+      case OPERATORS.allClear:
+        setStatement('');
+        setPrevValue('');
+        setOperator('');
+        setResult('0');
+        return;
       case OPERATORS.dot:
         if (result.includes(OPERATORS.dot)) {
           return;
         }
         setResult(result + OPERATORS.dot);
+        return;
+      case OPERATORS.delete:
+        if (result === '0') {
+          return;
+        }
+        if (result.length === 1) {
+          setResult('0');
+          return;
+        }
+        setResult(result.substr(0, result.length - 1));
+        return;
+      case OPERATORS.equal:
+        let ans;
+        setStatement(`${prevValue} ${operator} ${result}`);
+        switch (operator) {
+          case OPERATORS.add:
+            ans = parseFloat(prevValue) + parseFloat(result);
+            setPrevValue('');
+            setOperator('');
+            setResult(ans);
+            return;
+          case OPERATORS.sub:
+            ans = parseFloat(prevValue) - parseFloat(result);
+            setPrevValue('');
+            setOperator('');
+            setResult(ans);
+            return;
+          case OPERATORS.mul:
+            ans = parseFloat(prevValue) * parseFloat(result);
+            setPrevValue('');
+            setOperator('');
+            setResult(ans);
+            return;
+          case OPERATORS.div:
+            ans = parseFloat(prevValue) / parseFloat(result);
+            console.log(ans);
+            setPrevValue('');
+            setOperator('');
+            setResult(ans);
+            return;
+        }
         return;
     }
   };
@@ -58,22 +98,40 @@ const CalculatorScreen = () => {
     }
   };
 
+  const onPressOperator = op => {
+    setStatement('');
+    setPrevValue(result);
+    setOperator(op);
+    setResult('0');
+  };
+
+  const displayPreviousCalculation = () => {
+    if (statement) {
+      return statement;
+    }
+    return `${prevValue} ${operator}`;
+  };
+
   return (
     <Container>
       <HistoryButton title="History Icon" />
 
       <ResultView>
-        <Text style={styles.previousText}>{prevValue}</Text>
+        <PreviousText>{displayPreviousCalculation()}</PreviousText>
 
-        <Text style={styles.resultText}>{result}</Text>
+        <ResultText>{result}</ResultText>
       </ResultView>
 
       <ButtonPanelView>
         <ButtonRow>
           <CalcButton
-            text={result ? OPERATORS.clear : OPERATORS.allClear}
+            text={
+              result && result !== '0' ? OPERATORS.clear : OPERATORS.allClear
+            }
             onPress={() =>
-              onPressHandler(result ? OPERATORS.clear : OPERATORS.allClear)
+              onPressHandler(
+                result && result !== '0' ? OPERATORS.clear : OPERATORS.allClear,
+              )
             }
             color="cyan"
           />
@@ -89,7 +147,7 @@ const CalculatorScreen = () => {
           />
           <CalcButton
             text={OPERATORS.div}
-            onPress={() => onPressHandler(OPERATORS.div)}
+            onPress={() => onPressOperator(OPERATORS.div)}
             color="orange"
           />
         </ButtonRow>
@@ -109,7 +167,7 @@ const CalculatorScreen = () => {
           />
           <CalcButton
             text={OPERATORS.mul}
-            onPress={() => onPressHandler(OPERATORS.mul)}
+            onPress={() => onPressOperator(OPERATORS.mul)}
             color="orange"
           />
         </ButtonRow>
@@ -129,7 +187,7 @@ const CalculatorScreen = () => {
           />
           <CalcButton
             text={OPERATORS.sub}
-            onPress={() => onPressHandler(OPERATORS.sub)}
+            onPress={() => onPressOperator(OPERATORS.sub)}
             color="orange"
           />
         </ButtonRow>
@@ -149,7 +207,7 @@ const CalculatorScreen = () => {
           />
           <CalcButton
             text={OPERATORS.add}
-            onPress={() => onPressHandler(OPERATORS.add)}
+            onPress={() => onPressOperator(OPERATORS.add)}
             color="orange"
           />
         </ButtonRow>
@@ -174,15 +232,5 @@ const CalculatorScreen = () => {
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  previousText: {
-    color: '#DDDDDD',
-  },
-  resultText: {
-    fontSize: 50,
-    color: '#FFFFFF',
-  },
-});
 
 export default CalculatorScreen;
