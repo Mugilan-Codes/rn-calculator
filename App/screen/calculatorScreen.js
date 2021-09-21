@@ -15,19 +15,13 @@ import {
   HistoryView,
 } from '../styles/main';
 
-// TODO: Implement History
+// TODO: Implement History and use all clear to clear it
 // TODO: show max of two previous calculations in the calculator screen
 // TODO: display '=' when the calculation is done
 // TODO: display result with a max length of 10
+// TODO: calculate answer even when equal to is not pressed and put the result as prev value
 const CalculatorScreen = () => {
-  const [history, setHistory] = useState([
-    ['23 + 7', '30'],
-    ['3 - 2', '1'],
-    ['4 - 2', '2'],
-    ['3 + 4', '7'],
-    ['23 + 7', '34'],
-    ['3 - 2', '1'],
-  ]);
+  const [history, setHistory] = useState([{s: '23 + 7', r: '30'}]);
   const [statement, setStatement] = useState('');
   const [prevValue, setPrevValue] = useState('');
   const [operator, setOperator] = useState('');
@@ -103,6 +97,10 @@ const CalculatorScreen = () => {
       return;
     }
 
+    // if (statement) {
+    //   setHistory([...history, {s: statement, r: result}]);
+    // }
+
     if (result === '0') {
       setResult(text);
     } else {
@@ -133,8 +131,8 @@ const CalculatorScreen = () => {
           {history &&
             history.slice(-2).map(hist => (
               <>
-                <HistoryStatementText>{hist[0]}</HistoryStatementText>
-                <HistoryResultText>{hist[1]}</HistoryResultText>
+                <HistoryStatementText>{hist.s}</HistoryStatementText>
+                <HistoryResultText>{hist.r}</HistoryResultText>
               </>
             ))}
         </HistoryView>
