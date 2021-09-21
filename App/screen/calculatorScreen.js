@@ -10,6 +10,9 @@ import {
   PreviousText,
   ButtonPanelView,
   ButtonRow,
+  HistoryStatementText,
+  HistoryResultText,
+  HistoryView,
 } from '../styles/main';
 
 // TODO: Implement History
@@ -17,6 +20,14 @@ import {
 // TODO: display '=' when the calculation is done
 // TODO: display result with a max length of 10
 const CalculatorScreen = () => {
+  const [history, setHistory] = useState([
+    ['23 + 7', '30'],
+    ['3 - 2', '1'],
+    ['4 - 2', '2'],
+    ['3 + 4', '7'],
+    ['23 + 7', '34'],
+    ['3 - 2', '1'],
+  ]);
   const [statement, setStatement] = useState('');
   const [prevValue, setPrevValue] = useState('');
   const [operator, setOperator] = useState('');
@@ -75,6 +86,7 @@ const CalculatorScreen = () => {
             setResult(ans);
             return;
           case OPERATORS.div:
+            // TODO: Handle divide by zero
             ans = parseFloat(prevValue) / parseFloat(result);
             console.log(ans);
             setPrevValue('');
@@ -117,6 +129,16 @@ const CalculatorScreen = () => {
       <HistoryButton title="History Icon" />
 
       <ResultView>
+        <HistoryView>
+          {history &&
+            history.slice(-2).map(hist => (
+              <>
+                <HistoryStatementText>{hist[0]}</HistoryStatementText>
+                <HistoryResultText>{hist[1]}</HistoryResultText>
+              </>
+            ))}
+        </HistoryView>
+
         <PreviousText>{displayPreviousCalculation()}</PreviousText>
 
         <ResultText>{result}</ResultText>
