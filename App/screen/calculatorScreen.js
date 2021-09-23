@@ -17,8 +17,8 @@ import {
 
 // TODO: display '=' when the calculation is done
 // TODO: display result with a max length of 10
-const CalculatorScreen = () => {
-  const [history, setHistory] = useState([{s: '23 + 7', r: '30'}]);
+const CalculatorScreen = ({navigation}) => {
+  const [history, setHistory] = useState([]);
   const [statement, setStatement] = useState('');
   const [prevValue, setPrevValue] = useState('');
   const [operator, setOperator] = useState('');
@@ -130,7 +130,10 @@ const CalculatorScreen = () => {
 
   return (
     <Container>
-      <HistoryButton title="History Icon" />
+      <HistoryButton
+        title="History Icon"
+        onPress={() => navigation.navigate('History', {history: history})}
+      />
 
       <ResultView>
         {history &&
