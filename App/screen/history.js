@@ -10,7 +10,7 @@ import {
 const HistoryScreen = ({navigation, route}) => {
   const {history} = route.params;
   return (
-    <View>
+    <View style={{backgroundColor: '#111111', flex: 1}}>
       <Button title="Go Back" onPress={() => navigation.goBack()} />
 
       <ScrollView>
