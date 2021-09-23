@@ -15,11 +15,8 @@ import {
   HistoryView,
 } from '../styles/main';
 
-// TODO: Implement History and use all clear to clear it
-// TODO: show max of two previous calculations in the calculator screen
 // TODO: display '=' when the calculation is done
 // TODO: display result with a max length of 10
-// TODO: calculate answer even when equal to is not pressed and put the result as prev value
 const CalculatorScreen = () => {
   const [history, setHistory] = useState([{s: '23 + 7', r: '30'}]);
   const [statement, setStatement] = useState('');
@@ -30,12 +27,17 @@ const CalculatorScreen = () => {
   const onPressHandler = text => {
     switch (text) {
       case OPERATORS.posneg:
+        if (statement) {
+          setHistory([...history, {s: statement, r: result}]);
+          setStatement('');
+        }
         setResult(result * -1);
         return;
       case OPERATORS.clear:
         setResult('0');
         return;
       case OPERATORS.allClear:
+        setHistory([]);
         setStatement('');
         setPrevValue('');
         setOperator('');
@@ -65,27 +67,26 @@ const CalculatorScreen = () => {
             ans = parseFloat(prevValue) + parseFloat(result);
             setPrevValue('');
             setOperator('');
-            setResult(ans);
+            setResult(ans.toString());
             return;
           case OPERATORS.sub:
             ans = parseFloat(prevValue) - parseFloat(result);
             setPrevValue('');
             setOperator('');
-            setResult(ans);
+            setResult(ans.toString());
             return;
           case OPERATORS.mul:
             ans = parseFloat(prevValue) * parseFloat(result);
             setPrevValue('');
             setOperator('');
-            setResult(ans);
+            setResult(ans.toString());
             return;
           case OPERATORS.div:
             // TODO: Handle divide by zero
             ans = parseFloat(prevValue) / parseFloat(result);
-            console.log(ans);
             setPrevValue('');
             setOperator('');
-            setResult(ans);
+            setResult(ans.toString());
             return;
         }
         return;
@@ -97,9 +98,10 @@ const CalculatorScreen = () => {
       return;
     }
 
-    // if (statement) {
-    //   setHistory([...history, {s: statement, r: result}]);
-    // }
+    if (statement) {
+      setHistory([...history, {s: statement, r: result}]);
+      setStatement('');
+    }
 
     if (result === '0') {
       setResult(text);
@@ -109,6 +111,10 @@ const CalculatorScreen = () => {
   };
 
   const onPressOperator = op => {
+    if (statement) {
+      setHistory([...history, {s: statement, r: result}]);
+      setStatement('');
+    }
     setStatement('');
     setPrevValue(result);
     setOperator(op);
@@ -127,15 +133,13 @@ const CalculatorScreen = () => {
       <HistoryButton title="History Icon" />
 
       <ResultView>
-        <HistoryView>
-          {history &&
-            history.slice(-2).map(hist => (
-              <>
-                <HistoryStatementText>{hist.s}</HistoryStatementText>
-                <HistoryResultText>{hist.r}</HistoryResultText>
-              </>
-            ))}
-        </HistoryView>
+        {history &&
+          history.slice(-2).map((hist, idx) => (
+            <HistoryView key={idx}>
+              <HistoryStatementText>{hist.s}</HistoryStatementText>
+              <HistoryResultText>{hist.r}</HistoryResultText>
+            </HistoryView>
+          ))}
 
         <PreviousText>{displayPreviousCalculation()}</PreviousText>
 
